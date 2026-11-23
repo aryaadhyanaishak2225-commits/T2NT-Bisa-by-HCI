@@ -1,0 +1,9 @@
+{
+  "name": "to-the-next-target-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android wrapper for To The Next Target",
+  "scripts": {
+    "android:sync": "cap sync android"
+  }
+}
