@@ -33,10 +33,28 @@ jobs:
       - name: Install Capacitor
         run: npm install @capacitor/core@6.2.1 @capacitor/android@6.2.1 @capacitor/cli@6.2.1
 
+      
       - name: Prepare web assets
         run: |
           mkdir -p www
-          cp index.html www/index.html
+
+          if [ -f index.html ]; then
+            INDEX_FILE="index.html"
+          else
+            INDEX_FILE=$(find . -type f -name index.html \
+              -not -path './.git/*' \
+              -not -path './node_modules/*' \
+              -not -path './android/*' | head -n 1)
+          fi
+
+          if [ -z "$INDEX_FILE" ]; then
+            echo "ERROR: index.html tidak ditemukan"
+            exit 1
+          fi
+
+          echo "Menggunakan file: $INDEX_FILE"
+          cp "$INDEX_FILE" www/index.html
+
 
       - name: Add Android project
         run: npx cap add android
